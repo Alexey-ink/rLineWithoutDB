@@ -1,6 +1,9 @@
 from django.urls import path
-from . import views
+from .views import *
 
 urlpatterns = [
-    path('<str:text>/', views.generate_video, name='generate_video'),
+    path('', index, name='index'),
+    path('generate_video/', generate_video, name='generate_video'),
+    path('<str:text>/', generate_video, name='generate_video_with_text'),
 ]
+

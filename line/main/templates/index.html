@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Преобразовать текст в бегущую строку</title>
+</head>
+<body>
+    <h1>Преобразовать текст в бегущую строку</h1>
+    <form method="post" action="{% url 'generate_video' %}">
+        {% csrf_token %}
+        <label for="text">Введите текст:</label>
+        <input type="text" id="text" name="text" required>
+        <button type="submit">Преобразовать в бегущую строку</button>
+    </form>
+</body>
+</html>

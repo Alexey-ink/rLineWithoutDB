@@ -1,15 +1,23 @@
-
-# Create your views here.
 import os
+
+from django.shortcuts import render
 from django.http import HttpResponse
 from moviepy.editor import TextClip, CompositeVideoClip, ColorClip
 from moviepy.config import change_settings
 from .models import UserRequest
+from urllib.parse import quote
 
 # указываем путь к исполняемому файлу convert.exe
 change_settings({"IMAGEMAGICK_BINARY": "E:\\Programs\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe"})
 
-def generate_video(request, text):
+def index(request):
+    return render(request, 'index.html')
+
+def generate_video(request, text=None):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+    elif text is None:
+        return HttpResponse("Некорректный запрос", status=400)
 
     # сохраняем запрос в базу данных
     UserRequest.objects.create(text=text)
@@ -41,8 +49,9 @@ def generate_video(request, text):
 
     # чтение временного файла и отправка в ответе
     with open(output_path, "rb") as video_file:
+        encoded_filename = quote(f"{text}.mp4")
         response = HttpResponse(video_file.read(), content_type="video/mp4")
-        response['Content-Disposition'] = f'attachment; filename="{text}.mp4"'
+        response['Content-Disposition'] = f'attachment; filename*=UTF-8\'\'{encoded_filename}'
 
     os.remove(output_path) # удаляем временный файл
 
