@@ -4,7 +4,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from moviepy.editor import TextClip, CompositeVideoClip, ColorClip
 from moviepy.config import change_settings
-from .models import UserRequest
 from urllib.parse import quote
 
 # указываем путь к исполняемому файлу convert.exe
@@ -18,9 +17,6 @@ def generate_video(request, text=None):
         text = request.POST.get('text')
     elif text is None:
         return HttpResponse("Некорректный запрос", status=400)
-
-    # сохраняем запрос в базу данных
-    UserRequest.objects.create(text=text)
 
     video_width, video_height = 100, 100
     duration = 3  # продолжительность видео в секундах
