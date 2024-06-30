@@ -7,7 +7,7 @@ from moviepy.config import change_settings
 from urllib.parse import quote
 
 # указываем путь к исполняемому файлу convert.exe
-change_settings({"IMAGEMAGICK_BINARY": "E:\\Programs\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe"})
+change_settings({"IMAGEMAGICK_BINARY": "/usr/bin/convert"})
 
 def index(request):
     return render(request, 'index.html')
