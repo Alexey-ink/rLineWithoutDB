@@ -6,7 +6,7 @@ from moviepy.editor import TextClip, CompositeVideoClip, ColorClip
 from moviepy.config import change_settings
 from urllib.parse import quote
 
-change_settings({"IMAGEMAGICK_BINARY": "/usr/bin/magick"})
+change_settings({"IMAGEMAGICK_BINARY": "/usr/bin/convert"})
 
 def index(request):
     return render(request, 'index.html')
