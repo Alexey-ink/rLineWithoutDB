@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_COOKIE_DOMAIN = '*'
+
 # Application definition
 
 INSTALLED_APPS = [
