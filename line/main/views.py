@@ -21,14 +21,25 @@ def generate_video(request, text=None):
     duration = 3  # продолжительность видео в секундах
     fps = 24  # кадров в секунду
 
-    # Создание бегущей строки
-    txt_clip = TextClip(text, fontsize=70, color='white', size=(video_width * 5, None))
+    # Создание текстового клипа с фиксированным размером шрифта, ширина не установлена
+    txt_clip = TextClip(text, fontsize=100, color='white', size=(None, video_height))
+
+    # Измеряем ширину текста
+    text_width = txt_clip.w # возвращает ширину текста в пикселях
+
+    # Выбираем множитель для ширины текста
+    multiplier = 1.5
+
+    # Создаем новый текстовый клип с шириной в 2 раза больше ширины текста
+    txt_clip = TextClip(text, fontsize=100, color='white', size=(text_width * multiplier, video_height))
     txt_clip = txt_clip.set_duration(duration)
 
-    # определение анимации для текста
+    # Определение анимации для текста
     def scroll_text(t):
-        x_pos = max(video_width - txt_clip.size[0], int(video_width - (video_width + txt_clip.size[0]) * t / duration))
-        y_pos = (video_height - txt_clip.size[1]) / 2  # центрирование текста по вертикали
+        start_pos = video_width
+        end_pos = -text_width * multiplier   # Учитываем ширину нового текстового клипа
+        x_pos = start_pos + (end_pos - start_pos) * t / duration
+        y_pos = (video_height - txt_clip.size[1]) / 2  # Центрирование текста по вертикали
         return (x_pos, y_pos)
 
     txt_clip = txt_clip.set_position(scroll_text)
